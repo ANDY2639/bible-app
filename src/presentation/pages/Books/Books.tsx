@@ -1,5 +1,5 @@
 import { use } from "react"
-import { Book } from "@/domain/entity/Books/structure/books"
+import { Book } from "@/domain/entity/Book/structure/book"
 
 type Props = {
   promise: Promise<Book[]>
@@ -7,7 +7,7 @@ type Props = {
 
 const Books: React.FC<Props> = ({ promise }) => {
   const books = use(promise)
-  console.log(books)
+  console.table(books)
 
   return (
     <div>

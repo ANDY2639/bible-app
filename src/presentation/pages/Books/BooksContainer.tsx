@@ -1,6 +1,6 @@
 import { Suspense } from "react"
 import Books from "./Books"
-import { getBooks } from "@/presentation/actions/books"
+import { getBooks } from "@/presentation/actions/book.actions"
 
 const BooksContainer = () => {
   return (

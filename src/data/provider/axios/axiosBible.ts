@@ -8,7 +8,7 @@ axBible.interceptors.request.use((config) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(config);
-    }, 3000);
+    }, 1000);
   });
 });
 

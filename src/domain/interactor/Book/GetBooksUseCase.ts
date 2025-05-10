@@ -1,5 +1,5 @@
-import { Book } from '@/domain/entity/Books/structure/books';
-import type IBooksRepository from '@/domain/repository/Books/IBooksRepository';
+import { Book } from '@/domain/entity/Book/structure/book';
+import type IBooksRepository from '@/domain/repository/Book/IBooksRepository';
 
 export default class GetBooksUseCase {
   private readonly repository: IBooksRepository
