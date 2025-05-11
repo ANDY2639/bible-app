@@ -9,4 +9,11 @@ export const BookSchema = z.object({
 
 export const BooksSchema = z.array(BookSchema);
 
-export type Book = z.infer<typeof BookSchema>
+// export type Book = z.infer<typeof BookSchema>
+
+export type Book = {
+  abrev: string;
+  names: string[];
+  chapters: number;
+  testament: string;
+}

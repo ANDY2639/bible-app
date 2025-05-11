@@ -1,17 +1,15 @@
-import { use } from "react"
 import { Book as BookType } from "@/domain/entity/Book/structure/book"
 
 type Props = {
-  promise: Promise<BookType>
+  book: BookType
 }
 
-const Book: React.FC<Props> = ({ promise }) => {
-  const book = use(promise)
-  console.log({ book })
-
+const Book: React.FC<Props> = ({ book }) => {
   return (
-    <div>
-      Book
+    <div className="py-8">
+      <h1 className="text-xl">{book.names[0]} ({book.abrev})</h1>
+      <p>N° Capitulos: <span>{book.chapters}</span></p>
+      <span>{book.testament}</span>
     </div>
   )
 }

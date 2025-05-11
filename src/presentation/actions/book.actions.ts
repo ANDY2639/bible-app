@@ -11,8 +11,8 @@ export const getBooks = async (): Promise<Book[]> => {
   return books
 }
 
-export const getBook = async (bookParam: string): Promise<Book> => {
+export const getBook = async (bookName: string): Promise<Book> => {
   const getBookUC = new GetBookUseCase(booksRepository)
-  const book = await getBookUC.getBook(bookParam)
+  const book = await getBookUC.getBook(bookName)
   return book
 }

@@ -8,7 +8,7 @@ export default class GetBookUseCase {
     this.repository = repository
   }
 
-  getBook(book: string): Promise<Book> {
-    return this.repository.getBook(book)
+  getBook(bookName: string): Promise<Book> {
+    return this.repository.getBook(bookName)
   }
 }
