@@ -1,10 +1,10 @@
 import { Book } from '@/domain/entity/Book/structure/book';
-import type IBooksRepository from '@/domain/repository/Book/IBooksRepository';
+import type IBookRepository from '@/domain/repository/Book/IBookRepository';
 
 export default class GetBookUseCase {
-  private readonly repository: IBooksRepository
+  private readonly repository: IBookRepository
 
-  constructor(repository: IBooksRepository) {
+  constructor(repository: IBookRepository) {
     this.repository = repository
   }
 

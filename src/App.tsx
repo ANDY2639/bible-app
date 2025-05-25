@@ -1,10 +1,12 @@
-import Book from "./presentation/pages/Book";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import BibleApp from "./presentation/pages/BibleApp";
+
+const queryClient = new QueryClient()
 
 export default function App() {
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">Bible App</h1>
-      <Book />
-    </>
+    <QueryClientProvider client={queryClient}>
+      <BibleApp />
+    </QueryClientProvider>
   )
 }
