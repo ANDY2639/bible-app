@@ -1,10 +1,19 @@
 import { z } from "zod";
 
+export type Testament = 'old' | 'new' | 'both';
+
 export type Parameters = {
   q: string
-  testament?: "old" | "new" | "both"
+  testament?: Testament
   take?: number
   page?: number
+}
+
+export const initialParameters: Parameters = {
+  q: "",
+  testament: 'both',
+  take: 10,
+  page: 1,
 }
 
 export const VerseFoundSchema = z.object({

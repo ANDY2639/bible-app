@@ -1,22 +1,17 @@
-import { SearchResponse } from "@/domain/entity/Search/structure/search"
+import { Parameters, SearchResponse } from "@/domain/entity/Search/structure/search"
 import { useBibleStore } from "@/presentation/store/bibleStore"
 
 type Props = {
-  search: string,
+  searchParams: Parameters,
   searchResponse: SearchResponse,
-  setSearch: React.Dispatch<React.SetStateAction<string>>,
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void,
   isLoading: boolean,
   error: Error | null,
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
+  onChangeVersion: (e: React.ChangeEvent<HTMLSelectElement>) => void,
 }
 
-const BibleApp: React.FC<Props> = ({ search, searchResponse, setSearch, isLoading }) => {
-  const { versions, versionSelected, setVersionSelected } = useBibleStore()
-
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const version = versions.find((version) => version.version === e.target.value)
-    setVersionSelected(version)
-  }
+const BibleApp: React.FC<Props> = ({ searchParams, searchResponse, isLoading, onChange, onChangeVersion }) => {
+  const { versions, versionSelected } = useBibleStore()
 
   return (
     <>
@@ -28,7 +23,7 @@ const BibleApp: React.FC<Props> = ({ search, searchResponse, setSearch, isLoadin
           <li>
             <select
               className="bg-gray-50 px-2 py-1 outline-0 rounded-xs"
-              onChange={handleChange}
+              onChange={onChangeVersion}
             >
               <option value="">-- Seleccione una versión --</option>
               {versions.map(v => (
@@ -46,12 +41,31 @@ const BibleApp: React.FC<Props> = ({ search, searchResponse, setSearch, isLoadin
         <h1 className="text-center text-3xl font-bold">BibleApp</h1>
         <input
           type="text"
-          name="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          name="q"
+          value={searchParams.q}
+          onChange={onChange}
           placeholder="Buscar por libro, capítulo o verso"
           className="w-full bg-white shadow-md px-4 py-2 outline-0 rounded-md"
         />
+        <div className="flex justify-between">
+          <select name="testament" onChange={onChange}>
+            <option value="both">both</option>
+            <option value="old">old</option>
+            <option value="new">new</option>
+          </select>
+          <select name="take" onChange={onChange}>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+          </select>
+          <select name="page" onChange={onChange}>
+            <option value="1">Page 1</option>
+            <option value="2">Page 2</option>
+            <option value="3">Page 3</option>
+            <option value="4">Page 4</option>
+            <option value="5">Page 5</option>
+          </select>
+        </div>
         {isLoading && <p>Cargando...</p>}
         {searchResponse && (
           <ul className="flex flex-col gap-2.5">

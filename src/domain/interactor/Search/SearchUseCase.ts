@@ -1,15 +1,11 @@
-import { Parameters, SearchResponse } from '@/domain/entity/Search/structure/search';
-import { Version } from '@/domain/entity/Version/structure/version';
+import { SearchResponse } from '@/domain/entity/Search/structure/search';
+import { SearchCriteria } from '@/domain/entity/Search/models/SearchCriteria';
 import ISearchRepository from '@/domain/repository/Search/ISearchRepository';
 
 export default class SearchUseCase {
-  private readonly repository: ISearchRepository
+  constructor(private readonly repository: ISearchRepository) { }
 
-  constructor(repository: ISearchRepository) {
-    this.repository = repository
-  }
-
-  search(versionUrl: Version["uri"], params: Parameters): Promise<SearchResponse> {
-    return this.repository.search(versionUrl, params)
+  async execute(criteria: SearchCriteria): Promise<SearchResponse> {
+    return this.repository.search(criteria)
   }
 }

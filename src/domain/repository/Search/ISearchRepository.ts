@@ -1,6 +1,6 @@
-import { Parameters, SearchResponse } from "@/domain/entity/Search/structure/search"
-import { Version } from "@/domain/entity/Version/structure/version"
+import { SearchResponse } from "@/domain/entity/Search/structure/search"
+import { SearchCriteria } from "@/domain/entity/Search/models/SearchCriteria"
 
 export default interface ISearchRepository {
-  search(versionUrl: Version["uri"], params: Parameters): Promise<SearchResponse>
+  search(criteria: SearchCriteria): Promise<SearchResponse>
 }
