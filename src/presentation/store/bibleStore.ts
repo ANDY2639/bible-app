@@ -6,11 +6,13 @@ import { Version } from "@/domain/entity/Version/structure/version"
 type State = {
   books: Book[]
   versions: Version[]
+  versionSelected?: Version
 }
 
 type Actions = {
   setBooks: (books: Book[]) => void
   setVersions: (versions: Version[]) => void
+  setVersionSelected: (version?: Version) => void
 }
 
 export const useBibleStore = create<State & Actions>()(
@@ -25,6 +27,9 @@ export const useBibleStore = create<State & Actions>()(
         setVersions: (versions: Version[]) => {
           set(() => ({ versions }))
         },
+        setVersionSelected: (version?: Version) => {
+          set(() => ({ versionSelected: version }))
+        }
       }),
       { name: "bible-store" }
     )
