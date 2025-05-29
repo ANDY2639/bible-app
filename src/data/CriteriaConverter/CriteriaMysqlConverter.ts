@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Criteria } from "../Criteria/Criteria";
-import { Filters } from "../Criteria/Filters";
+import { Criteria } from "../../domain/entity/Criteria/Criteria";
+import { Filter } from "../../domain/entity/Criteria/Filter";
+import { Filters } from "../../domain/entity/Criteria/Filters";
 
 
 export class CriteriaMysqlConverter {
   static convert(criteria: Criteria): string {
-    const whereClause = this.buildWhere(criteria.filters);
+    const whereClause = this.buildWhere(criteria.getFilters());
     const orderClause = this.buildOrder(criteria);
     const paginationClause = this.buildPagination(criteria);
 
@@ -14,12 +14,12 @@ export class CriteriaMysqlConverter {
   }
 
   private static buildWhere(filters: Filters): string {
-    if (!filters.hasFilters()) return '';
+    if (!filters.filters()) return '';
 
-    const conditions = filters.toPrimitives().map((f: any) => {
-      const field = `\`${f.field}\``;
-      const value = this.formatValue(f.operator, f.value);
-      const operator = this.mapOperator(f.operator);
+    const conditions = filters.filters().map((f: Filter) => {
+      const field = `\`${f.getField().value()}\``;
+      const value = this.formatValue(f.getOperator().value, f.getValue().value());
+      const operator = this.mapOperator(f.getOperator().value);
       return `${field} ${operator} ${value}`;
     });
 
@@ -27,20 +27,21 @@ export class CriteriaMysqlConverter {
   }
 
   private static buildOrder(criteria: Criteria): string {
-    const { orderBy, orderType } = criteria.order;
+    const orderBy = criteria.getOrder().getOrderBy();
+    const orderType = criteria.getOrder().getOrderType();
     if (!orderBy.value || orderType.value === 'none') return '';
     return `ORDER BY \`${orderBy.value()}\` ${orderType.value.toUpperCase()}`;
   }
 
   private static buildPagination(criteria: Criteria): string {
-    const limit = criteria.limit ?? 0;
-    const offset = criteria.offset ?? 0;
+    const limit = criteria.getPageSize() ?? 0;
+    const offset = criteria.getPageNumber() ?? 0;
     if (limit <= 0) return '';
     return `LIMIT ${limit} OFFSET ${offset}`;
   }
 
   private static formatValue(operator: string, value: string): string {
-    if (operator === 'CONTAINS') return `'%${value}%'`;
+    if (operator === 'CONTAINS' || operator === 'NOT_CONTAINS') return `'%${value}%'`;
     if (!isNaN(Number(value))) return value;
     return `'${value}'`;
   }
@@ -54,6 +55,7 @@ export class CriteriaMysqlConverter {
       GTE: '>=',
       LTE: '<=',
       CONTAINS: 'LIKE',
+      NOT_CONTAINS: 'NOT LIKE',
     };
     return map[operator] || '=';
   }
